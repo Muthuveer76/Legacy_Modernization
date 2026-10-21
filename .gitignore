@@ -1,0 +1,15 @@
+node_modules/
+client/dist/
+server/.data/
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+.DS_Store
+Thumbs.db
+
+# graphify intermediates (the report, graph.json and graph.html are kept)
+.graphify_*
+graphify-out/cache/
+graphify-out/.graphify_*

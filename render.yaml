@@ -1,0 +1,20 @@
+# Render Blueprint: New + > Blueprint, point it at this repository, then fill in the
+# MONGODB_URI (e.g. a free MongoDB Atlas cluster) and optionally ANTHROPIC_API_KEY.
+services:
+  - type: web
+    name: legacylift
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-opus-5-5
+      - key: TRUST_PROXY
+        value: "1"

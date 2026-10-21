@@ -1,0 +1,23 @@
+{
+  "name": "legacy-modernization-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-Assisted Legacy Application Modernization Platform (MongoDB, Express, React, Node.js)",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:db": "node server/scripts/dev-mongo.js",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "npm test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

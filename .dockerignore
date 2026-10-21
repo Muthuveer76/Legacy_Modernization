@@ -1,0 +1,16 @@
+**/node_modules
+client/dist
+server/.data
+server/test
+.env
+.env.*
+!.env.example
+.git
+.claude
+docs
+graphify-out
+.graphify_*
+*.log
+coverage
+Dockerfile
+docker-compose.yml

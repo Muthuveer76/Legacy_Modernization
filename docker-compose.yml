@@ -1,0 +1,35 @@
+# Runs the platform against MongoDB Atlas: set MONGODB_URI in .env, then `docker compose up --build`
+# and open http://localhost:5000. Values in ${...} come from your shell or the .env file next to this one.
+#
+# Without Atlas, start the bundled MongoDB too and point the app at it:
+#   MONGODB_URI=mongodb://mongo:27017/legacy_modernization docker compose --profile local-db up --build
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-5000}:5000"
+    environment:
+      MONGODB_URI: ${MONGODB_URI:?Set MONGODB_URI (your MongoDB Atlas connection string) in .env or your shell}
+      MONGODB_DB: ${MONGODB_DB:-legacy_modernization}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET (a long random string) in .env or your shell}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-5-5}
+      ANTHROPIC_EFFORT: ${ANTHROPIC_EFFORT:-high}
+      ANTHROPIC_FALLBACKS: ${ANTHROPIC_FALLBACKS:-default}
+      TRUST_PROXY: ${TRUST_PROXY:-0}
+
+  mongo:
+    image: mongo:8
+    profiles: ["local-db"]
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mongo-data:
